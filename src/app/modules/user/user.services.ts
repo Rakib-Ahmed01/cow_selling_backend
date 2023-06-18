@@ -10,3 +10,8 @@ export const getAllUsersService = async () => {
   const users = await User.find();
   return users;
 };
+
+export const getSingleUserService = async (id: string) => {
+  const user = await User.findOne({ _id: id });
+  return user;
+};
