@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Server } from "http";
 import mongoose from "mongoose";
 import util from "util";
@@ -19,7 +20,7 @@ export async function connectDb() {
     console.log(`Connected to database: ${connection.connection.host}`);
 
     server = app.listen(port, () => {
-      console.log(`Auth service listening on port ${port}`);
+      console.log(`Server is listening on port ${port}`);
     });
   } catch (error) {
     console.log(`Failed to connect to database:`, error);

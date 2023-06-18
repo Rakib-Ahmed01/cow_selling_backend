@@ -1,6 +1,7 @@
-import express, { Application, Request, Response } from "express";
+import express, { Application } from "express";
 import cors from "cors";
 import { globalErrorHandler, notFoundHandler } from "./middleware/error";
+import { router } from "./routes";
 
 // initialize app
 const app: Application = express();
@@ -10,10 +11,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Testing
-app.get("/", (req: Request, res: Response) => {
-  res.json({ message: "Welcome to Cow Selling Backend" });
-});
+// routes
+app.use("/", router);
 
 // error handling middlewares
 app.use(notFoundHandler);
