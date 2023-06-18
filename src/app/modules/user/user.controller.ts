@@ -4,6 +4,7 @@ import { TUser } from "./user.interface";
 import { StatusCodes } from "http-status-codes";
 import {
   createUserService,
+  deleteUserService,
   getAllUsersService,
   getSingleUserService,
 } from "./user.services";
@@ -50,5 +51,26 @@ export const getSingleUser = expressAsyncHandler(async (req, res) => {
     statusCode: StatusCodes.OK,
     message: "Users retrieved successfully",
     data: user,
+  });
+});
+
+export const deleteUser = expressAsyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  if (!isValidObjectId(id)) {
+    throw new ApiError(StatusCodes.BAD_REQUEST, "Invalid user id");
+  }
+
+  const result = await deleteUserService(id);
+
+  if (!result.deletedCount) {
+    throw new ApiError(StatusCodes.NOT_FOUND, "User not found");
+  }
+
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: "User deleted successfully",
+    data: result,
   });
 });

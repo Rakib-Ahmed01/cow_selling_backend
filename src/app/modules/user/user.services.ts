@@ -15,3 +15,8 @@ export const getSingleUserService = async (id: string) => {
   const user = await User.findOne({ _id: id });
   return user;
 };
+
+export const deleteUserService = async (id: string) => {
+  const result = await User.deleteOne({ _id: id });
+  return result;
+};
