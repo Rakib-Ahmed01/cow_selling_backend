@@ -28,31 +28,17 @@ export const getSingleCowService = async (id: string) => {
   return cow;
 };
 
-// export const updateCowService = async (
-//   id: string,
-//   payload: Partial<TCow>
-// ) => {
-//   if (!isValidObjectId(id)) {
-//     throw new ApiError(StatusCodes.BAD_REQUEST, "Invalid cow id");
-//   }
+export const updateCowService = async (id: string, payload: Partial<TCow>) => {
+  if (!isValidObjectId(id)) {
+    throw new ApiError(StatusCodes.BAD_REQUEST, "Invalid cow id");
+  }
 
-//   if (payload.name) {
-//     const existingCow = await Cow.findOne({ _id: id });
+  const updatedCow = await Cow.findOneAndUpdate({ _id: id }, payload, {
+    new: true,
+  });
 
-//     const name = {
-//       ...existingCow?.name,
-//       ...payload?.name,
-//     };
-
-//     payload.name = name;
-//   }
-
-//   const updatedCow = await Cow.findOneAndUpdate({ _id: id }, payload, {
-//     new: true,
-//   });
-
-//   return updatedCow;
-// };
+  return updatedCow;
+};
 
 // export const deleteCowService = async (id: string) => {
 //   if (!isValidObjectId(id)) {

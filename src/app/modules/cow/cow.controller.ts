@@ -2,7 +2,11 @@ import expressAsyncHandler from "express-async-handler";
 import { sendResponse } from "../../../utils/sendResponse";
 import { TCow } from "./cow.interface";
 import { StatusCodes } from "http-status-codes";
-import { createCowService, getAllCowsService } from "./cow.services";
+import {
+  createCowService,
+  getAllCowsService,
+  getSingleCowService,
+} from "./cow.services";
 
 export const createCow = expressAsyncHandler(async (req, res) => {
   const cow = await createCowService(req.body);
@@ -26,17 +30,17 @@ export const getAllCows = expressAsyncHandler(async (req, res) => {
   });
 });
 
-// export const getSingleCow = expressAsyncHandler(async (req, res) => {
-//   const { id } = req.params;
-//   const cow = await getSingleCowService(id);
+export const getSingleCow = expressAsyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const cow = await getSingleCowService(id);
 
-//   sendResponse<TCow>(res, {
-//     success: true,
-//     statusCode: StatusCodes.OK,
-//     message: "Cow retrieved successfully",
-//     data: cow,
-//   });
-// });
+  sendResponse<TCow>(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: "Cow retrieved successfully",
+    data: cow,
+  });
+});
 
 // export const updateCow = expressAsyncHandler(async (req, res) => {
 //   const { id } = req.params;

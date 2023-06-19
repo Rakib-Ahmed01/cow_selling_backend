@@ -47,3 +47,56 @@ export const createCowZodSchema = z.object({
       }),
   }),
 });
+
+export const updateCowZodSchema = z.object({
+  body: z.object({
+    name: z
+      .string({
+        invalid_type_error: "Name must be a string",
+      })
+      .optional(),
+    age: z
+      .number({
+        invalid_type_error: "Age must be a number",
+      })
+      .optional(),
+    price: z
+      .number({
+        invalid_type_error: "Price must be a number",
+      })
+      .optional(),
+    location: z
+      .enum(locations, {
+        invalid_type_error: `Location must be - ${locations.join(" or ")}`,
+      })
+      .optional(),
+    label: z
+      .enum(labels, {
+        invalid_type_error: `Label must be - ${labels.join(" or ")}`,
+      })
+      .optional(),
+    breed: z
+      .enum(breeds, {
+        invalid_type_error: `Breed must be - ${breeds.join(" or ")}`,
+      })
+      .optional(),
+    category: z
+      .enum(categories, {
+        invalid_type_error: `Category must be - ${categories.join(" or ")}`,
+      })
+      .optional(),
+    weight: z
+      .number({
+        invalid_type_error: "Weight must be a number",
+      })
+      .optional(),
+    seller: z
+      .string({
+        invalid_type_error: "Seller must be a string",
+      })
+      .refine((val) => isValidObjectId(val), {
+        message: "Invalid Seller id",
+      })
+      .optional(),
+  }),
+});

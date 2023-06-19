@@ -13,7 +13,7 @@ export const userRouter = express.Router();
 userRouter
   .route("/:id")
   .get(getSingleUser)
-  .delete(deleteUser)
-  .patch(validateRequest(updateUserZodSchema), updateUser);
+  .patch(validateRequest(updateUserZodSchema), updateUser)
+  .delete(deleteUser);
 
 userRouter.route("/").get(getAllUsers);
