@@ -4,10 +4,12 @@ import Cow from "../cow/cow.model";
 import User from "../user/user.model";
 import { Order } from "./order.model";
 import { startSession } from "mongoose";
+import { TOrder } from "./order.interface";
 
 export const createOrderService = async (cow: string, buyer: string) => {
   const session = await startSession();
   let order;
+  let orderAllData = null;
 
   try {
     session.startTransaction();
@@ -53,6 +55,15 @@ export const createOrderService = async (cow: string, buyer: string) => {
 
     order = await Order.create([{ cow, buyer }], { session });
 
+    if (Object.keys(order[0]).length === 0) {
+      throw new ApiError(
+        StatusCodes.INTERNAL_SERVER_ERROR,
+        "Failed to create the order"
+      );
+    }
+
+    orderAllData = order[0] as { _id: string };
+
     await session.commitTransaction();
   } catch (error) {
     await session.abortTransaction();
@@ -61,7 +72,14 @@ export const createOrderService = async (cow: string, buyer: string) => {
     session.endSession();
   }
 
-  return order;
+  return await Order.findOne({ _id: orderAllData?._id })
+    .populate({
+      path: "cow",
+      populate: {
+        path: "seller",
+      },
+    })
+    .populate("buyer");
 };
 
 export const getAllOrdersService = async () => {

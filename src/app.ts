@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/api/v1", (req: Request, res: Response) => {
   res
     .status(StatusCodes.OK)
-    .json({ message: "Welcome to Cow Selling Server! 🐱‍🏍" });
+    .json({ message: "Welcome to Cow Selling Server!... 🐱‍🏍" });
 });
 
 // routes

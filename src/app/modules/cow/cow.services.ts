@@ -21,7 +21,7 @@ export const createCowService = async (cow: TCow) => {
   if (seller.role === "buyer") {
     throw new ApiError(
       StatusCodes.BAD_REQUEST,
-      "You can not sell cow wih this account. This is a buyer account."
+      "You can not sell cow with this account. This is a buyer account."
     );
   }
 
