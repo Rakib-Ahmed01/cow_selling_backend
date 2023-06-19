@@ -63,3 +63,8 @@ export const createOrderService = async (cow: string, buyer: string) => {
 
   return order;
 };
+
+export const getAllOrdersService = async () => {
+  const orders = await Order.find().populate("cow").populate("buyer");
+  return orders;
+};
