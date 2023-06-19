@@ -30,7 +30,9 @@
     "lint": "eslint --ignore-path .eslintignore --ext .js,.ts .",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
     "lint-format": "yarn lint && yarn format",
-    "start": "ts-node-dev --respawn --transpile-only src/server.ts"
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js"
   },
   "lint-staged": {
     "src/**/*.ts": "yarn lint-format"

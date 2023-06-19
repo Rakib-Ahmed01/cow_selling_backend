@@ -3,15 +3,52 @@ import ApiError from "../../../errors/ApiError";
 import { StatusCodes } from "http-status-codes";
 import { TCow } from "./cow.interface";
 import Cow from "./cow.model";
+import { PaginationOptions } from "../../../types/PaginationOptions";
+import { FilterOptions } from "../../../types/FilterOptions";
+import { calculateSkip } from "../../../utils/calculateSkip";
+import { generateSearchCondition } from "../../../utils/generateSearchCondition";
+import { PaginationResponse } from "../../../types/PaginationResponse";
+import { handleFilters } from "../../../utils/handleFilters";
 
 export const createCowService = async (cow: TCow) => {
   const createdCow = await Cow.create(cow);
   return createdCow;
 };
 
-export const getAllCowsService = async () => {
-  const cows = await Cow.find();
-  return cows;
+export const getAllCowsService = async (
+  paginationOptions: PaginationOptions,
+  filterOptions: FilterOptions
+): Promise<PaginationResponse<TCow[]>> => {
+  const { limit, page, skip } = calculateSkip(paginationOptions);
+  const { sortBy, sortOrder } = paginationOptions;
+  const { searchTerm, ...filters } = filterOptions;
+  const filterObj = handleFilters(filters as FilterOptions);
+
+  const searchCondition = generateSearchCondition("or", searchTerm, [
+    "location",
+    "breed",
+    "category",
+  ]);
+
+  const [cows, total] = await Promise.all([
+    Cow.find({ $and: [searchCondition, filterObj] })
+      .skip(skip)
+      .limit(limit)
+      .sort({
+        [sortBy]: sortOrder,
+      })
+      .lean(),
+    Cow.countDocuments(),
+  ]);
+
+  return {
+    data: cows,
+    meta: {
+      limit,
+      page,
+      total,
+    },
+  };
 };
 
 export const getSingleCowService = async (id: string) => {

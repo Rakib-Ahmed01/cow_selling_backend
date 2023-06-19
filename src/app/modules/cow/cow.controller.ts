@@ -9,6 +9,10 @@ import {
   getSingleCowService,
   updateCowService,
 } from "./cow.services";
+import { QueryObject } from "../../../types/QueryObject";
+import { PaginationOptions } from "../../../types/PaginationOptions";
+import { pickOptions } from "../../../utils/pickOptions";
+import { FilterOptions } from "../../../types/FilterOptions";
 
 export const createCow = expressAsyncHandler(async (req, res) => {
   const cow = await createCowService(req.body);
@@ -22,13 +26,28 @@ export const createCow = expressAsyncHandler(async (req, res) => {
 });
 
 export const getAllCows = expressAsyncHandler(async (req, res) => {
-  const cows = await getAllCowsService();
+  const paginationOptions = pickOptions(req.query as QueryObject, [
+    "page",
+    "limit",
+    "sortOrder",
+    "sortBy",
+  ]) as PaginationOptions;
+
+  const filters = pickOptions(req.query as QueryObject, [
+    "minPrice",
+    "maxPrice",
+    "location",
+    "searchTerm",
+  ]) as FilterOptions;
+
+  const result = await getAllCowsService(paginationOptions, filters);
 
   sendResponse<TCow>(res, {
     success: true,
     statusCode: StatusCodes.OK,
     message: "Cows retrieved successfully",
-    data: cows,
+    data: result.data,
+    meta: result.meta,
   });
 });
 
