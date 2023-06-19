@@ -4,13 +4,18 @@ import {
   deleteCow,
   getAllCows,
   getSingleCow,
+  updateCow,
 } from "./cow.controller";
 import { validateRequest } from "../../../utils/validateRequest";
-import { createCowZodSchema } from "./cow.validation";
+import { createCowZodSchema, updateCowZodSchema } from "./cow.validation";
 
 export const cowRouter = express.Router();
 
-cowRouter.route("/:id").get(getSingleCow).patch().delete(deleteCow);
+cowRouter
+  .route("/:id")
+  .get(getSingleCow)
+  .patch(validateRequest(updateCowZodSchema), updateCow)
+  .delete(deleteCow);
 
 cowRouter
   .route("/")

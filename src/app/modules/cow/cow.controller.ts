@@ -7,6 +7,7 @@ import {
   deleteCowService,
   getAllCowsService,
   getSingleCowService,
+  updateCowService,
 } from "./cow.services";
 
 export const createCow = expressAsyncHandler(async (req, res) => {
@@ -43,19 +44,19 @@ export const getSingleCow = expressAsyncHandler(async (req, res) => {
   });
 });
 
-// export const updateCow = expressAsyncHandler(async (req, res) => {
-//   const { id } = req.params;
-//   const payload = req.body;
+export const updateCow = expressAsyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const payload = req.body;
 
-//   const updatedCow = await updateCowService(id, payload);
+  const updatedCow = await updateCowService(id, payload);
 
-//   sendResponse<TCow>(res, {
-//     success: true,
-//     statusCode: StatusCodes.OK,
-//     message: "Cow updated successfully",
-//     data: updatedCow,
-//   });
-// });
+  sendResponse<TCow>(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: "Cow updated successfully",
+    data: updatedCow,
+  });
+});
 
 export const deleteCow = expressAsyncHandler(async (req, res) => {
   const { id } = req.params;
