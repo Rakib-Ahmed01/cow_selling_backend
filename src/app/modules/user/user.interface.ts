@@ -1,5 +1,3 @@
-import { Model } from "mongoose";
-
 // I've used union instead of enum because using Typescript enum is not considred as best practice
 type Role = "seller" | "buyer";
 
@@ -15,5 +13,3 @@ export type TUser = {
   budget: number;
   income: number;
 };
-
-export const UserModel = Model<TUser>;

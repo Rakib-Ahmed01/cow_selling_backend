@@ -54,6 +54,7 @@ const cowSchema = new Schema<TCow>(
     },
     seller: {
       type: Schema.Types.ObjectId,
+      ref: "User",
       required: [true, "Seller is required"],
     },
   },

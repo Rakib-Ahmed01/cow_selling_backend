@@ -1,4 +1,4 @@
-import { Model, Schema } from "mongoose";
+import { Schema } from "mongoose";
 import { breeds, categories, labels, locations } from "./cow.contants";
 
 export type Breed = (typeof breeds)[number];
@@ -17,5 +17,3 @@ export type TCow = {
   category: Category;
   seller: Schema.Types.ObjectId;
 };
-
-export const CowModel = Model<TCow>;

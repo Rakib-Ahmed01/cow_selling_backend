@@ -9,8 +9,22 @@ import { calculateSkip } from "../../../utils/calculateSkip";
 import { generateSearchCondition } from "../../../utils/generateSearchCondition";
 import { PaginationResponse } from "../../../types/PaginationResponse";
 import { handleFilters } from "../../../utils/handleFilters";
+import User from "../user/user.model";
 
 export const createCowService = async (cow: TCow) => {
+  const seller = await User.findOne({ _id: cow.seller });
+
+  if (!seller) {
+    throw new ApiError(StatusCodes.BAD_REQUEST, "Seller not found");
+  }
+
+  if (seller.role === "buyer") {
+    throw new ApiError(
+      StatusCodes.BAD_REQUEST,
+      "You can not sell cow wih this account. This is a buyer account."
+    );
+  }
+
   const createdCow = await Cow.create(cow);
   return createdCow;
 };
@@ -37,6 +51,7 @@ export const getAllCowsService = async (
       .sort({
         [sortBy]: sortOrder,
       })
+      .populate("seller")
       .lean(),
     Cow.countDocuments(),
   ]);
