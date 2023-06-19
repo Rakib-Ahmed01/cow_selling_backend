@@ -40,16 +40,16 @@ export const updateCowService = async (id: string, payload: Partial<TCow>) => {
   return updatedCow;
 };
 
-// export const deleteCowService = async (id: string) => {
-//   if (!isValidObjectId(id)) {
-//     throw new ApiError(StatusCodes.BAD_REQUEST, "Invalid cow id");
-//   }
+export const deleteCowService = async (id: string) => {
+  if (!isValidObjectId(id)) {
+    throw new ApiError(StatusCodes.BAD_REQUEST, "Invalid cow id");
+  }
 
-//   const result = await Cow.deleteOne({ _id: id });
+  const result = await Cow.deleteOne({ _id: id });
 
-//   if (!result.deletedCount) {
-//     throw new ApiError(StatusCodes.NOT_FOUND, "Cow not found");
-//   }
+  if (!result.deletedCount) {
+    throw new ApiError(StatusCodes.NOT_FOUND, "Cow not found");
+  }
 
-//   return result;
-// };
+  return result;
+};

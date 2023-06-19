@@ -4,6 +4,7 @@ import { TCow } from "./cow.interface";
 import { StatusCodes } from "http-status-codes";
 import {
   createCowService,
+  deleteCowService,
   getAllCowsService,
   getSingleCowService,
 } from "./cow.services";
@@ -56,14 +57,14 @@ export const getSingleCow = expressAsyncHandler(async (req, res) => {
 //   });
 // });
 
-// export const deleteCow = expressAsyncHandler(async (req, res) => {
-//   const { id } = req.params;
-//   const result = await deleteCowService(id);
+export const deleteCow = expressAsyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const result = await deleteCowService(id);
 
-//   sendResponse(res, {
-//     success: true,
-//     statusCode: StatusCodes.OK,
-//     message: "Cow deleted successfully",
-//     data: result,
-//   });
-// });
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: "Cow deleted successfully",
+    data: result,
+  });
+});
