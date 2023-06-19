@@ -9,24 +9,24 @@ export const createCowService = async (cow: TCow) => {
   return createdCow;
 };
 
-// export const getAllCowsService = async () => {
-//   const cows = await Cow.find();
-//   return cows;
-// };
+export const getAllCowsService = async () => {
+  const cows = await Cow.find();
+  return cows;
+};
 
-// export const getSingleCowService = async (id: string) => {
-//   if (!isValidObjectId(id)) {
-//     throw new ApiError(StatusCodes.BAD_REQUEST, "Invalid cow id");
-//   }
+export const getSingleCowService = async (id: string) => {
+  if (!isValidObjectId(id)) {
+    throw new ApiError(StatusCodes.BAD_REQUEST, "Invalid cow id");
+  }
 
-//   const cow = await Cow.findOne({ _id: id });
+  const cow = await Cow.findOne({ _id: id });
 
-//   if (!cow) {
-//     throw new ApiError(StatusCodes.NOT_FOUND, "Cow not found");
-//   }
+  if (!cow) {
+    throw new ApiError(StatusCodes.NOT_FOUND, "Cow not found");
+  }
 
-//   return cow;
-// };
+  return cow;
+};
 
 // export const updateCowService = async (
 //   id: string,
