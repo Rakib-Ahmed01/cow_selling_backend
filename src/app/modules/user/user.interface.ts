@@ -4,12 +4,13 @@ import { Model } from "mongoose";
 type Role = "seller" | "buyer";
 
 export type TUser = {
-  name: string;
+  name: {
+    firstName: string;
+    lastName: string;
+  };
   phoneNumber: string;
   role: Role;
   password: string;
-  firstName: string;
-  lastName: string;
   address: string;
   budget: number;
   income: number;

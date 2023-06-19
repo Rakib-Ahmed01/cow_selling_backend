@@ -7,9 +7,8 @@ import {
   deleteUserService,
   getAllUsersService,
   getSingleUserService,
+  updateUserService,
 } from "./user.services";
-import { isValidObjectId } from "mongoose";
-import ApiError from "../../../errors/ApiError";
 
 export const createUser = expressAsyncHandler(async (req, res) => {
   const user = await createUserService(req.body);
@@ -35,37 +34,33 @@ export const getAllUsers = expressAsyncHandler(async (req, res) => {
 
 export const getSingleUser = expressAsyncHandler(async (req, res) => {
   const { id } = req.params;
-
-  if (!isValidObjectId(id)) {
-    throw new ApiError(StatusCodes.BAD_REQUEST, "Invalid user id");
-  }
-
   const user = await getSingleUserService(id);
-
-  if (!user) {
-    throw new ApiError(StatusCodes.NOT_FOUND, "User not found");
-  }
 
   sendResponse<TUser>(res, {
     success: true,
     statusCode: StatusCodes.OK,
-    message: "Users retrieved successfully",
+    message: "User retrieved successfully",
     data: user,
+  });
+});
+
+export const updateUser = expressAsyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const payload = req.body;
+
+  const updatedUser = await updateUserService(id, payload);
+
+  sendResponse<TUser>(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: "User updated successfully",
+    data: updatedUser,
   });
 });
 
 export const deleteUser = expressAsyncHandler(async (req, res) => {
   const { id } = req.params;
-
-  if (!isValidObjectId(id)) {
-    throw new ApiError(StatusCodes.BAD_REQUEST, "Invalid user id");
-  }
-
   const result = await deleteUserService(id);
-
-  if (!result.deletedCount) {
-    throw new ApiError(StatusCodes.NOT_FOUND, "User not found");
-  }
 
   sendResponse(res, {
     success: true,
